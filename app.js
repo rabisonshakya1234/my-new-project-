@@ -20,6 +20,8 @@ const authRoute = require("./app/routes/route.auth");
 
 const verifyJwt = require("./app/middleware/verifyJWT");
 
+
+mongoose.set("strictQuery", false);
 mongoose.connect(
   process.env.DATABASE_URL,
   { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false},
@@ -31,10 +33,6 @@ mongoose.connect(
 mongoose.connection.on("connected", (err, res) => {
     console.log("MongoDB connected successfully!");
   });
-
-
-console.log(process.env.DATABASE_URL);
-
 
 
 app.use("/api", authRoute);
