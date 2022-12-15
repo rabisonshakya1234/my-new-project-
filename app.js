@@ -42,7 +42,7 @@ app.use("/api", authRoute);
 app.use("/api/user", userRoute);
 
 // protected routes
-// app.use(verifyJwt);
+app.use(verifyJwt);
 app.use("/api/category", categoryRoute);
 
 // app listen
