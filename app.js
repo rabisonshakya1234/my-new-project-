@@ -22,24 +22,27 @@ const verifyJwt = require("./app/middleware/verifyJWT");
 
 
 mongoose.set("strictQuery", false);
-mongoose.connect(
-  process.env.DATABASE_URL,
-  { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false},
 
-  () => {
-    console.log("Connected to DB!");
-  }
-);
-mongoose.connection.on("connected", (err, res) => {
-    console.log("MongoDB connected successfully!");
-  });
+// connect to database
+mongoose.connect(process.env.DATABASE_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
 
+// mongoose connection object
+const db = mongoose.connection;
+
+// set up an event listener that will fire once the connection opens for the database
+// console.log what host and port we are on
+db.once("open", () => {
+  console.log(`Connected to MongoDB at ${db.host}:${db.port}`);
+});
 
 app.use("/api", authRoute);
 app.use("/api/user", userRoute);
 
 // protected routes
-app.use(verifyJwt);
+// app.use(verifyJwt);
 app.use("/api/category", categoryRoute);
 
 // app listen
